@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d5acb34da5ffe4f3dfda659b11b55dcbb092578a27a1f6c7795a6dae6e3177ad"
+            "sha256": "dfc8602103b05d3c6a221f4937f72b2db914f4d3251ceb1ee643c66fa2fe21c5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -132,6 +132,14 @@
             ],
             "index": "pypi",
             "version": "==7.2.0"
+        },
+        "pokebase": {
+            "hashes": [
+                "sha256:1fab389df211f22d0987e8aae45d0d19b5db7b3eb0c92dca48283f74e9df4f70",
+                "sha256:a5881566bfaa6f9a860b847be0a648f23b02babdaf79ab96f6a6d0295b497c34"
+            ],
+            "index": "pypi",
+            "version": "==1.3.0"
         },
         "psycopg2": {
             "hashes": [
