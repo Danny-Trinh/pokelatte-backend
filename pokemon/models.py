@@ -98,9 +98,6 @@ class Pokemon(models.Model):
         self.b_s_attack = p_stats[3].base_stat
         self.b_s_defense = p_stats[4].base_stat
         self.b_speed = p_stats[5].base_stat
-        print(f"hp: {self.b_hp}")
-        print(f"def: {self.b_defense}")
-        print(f"att: {self.b_attack}")
 
     def refresh_stats(self):
         self.hp = self.calc_hp()
