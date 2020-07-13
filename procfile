@@ -1,1 +1,1 @@
-web: gunicorn dannyt_info.wsgi
+web: gunicorn pokelatte_backend.wsgi
