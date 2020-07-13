@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django = "*"
+pillow = "*"
+django-heroku = "*"
+django-storages = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
+requests = "*"
+gunicorn = "*"
+
+[requires]
+python_version = "3.8"
