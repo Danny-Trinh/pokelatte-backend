@@ -25,7 +25,7 @@ SECRET_KEY = 'ej2lq&_b+-^5bziz!*-+@-+z74jd!169csitpmzihnyqe(i-07'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["pokelatte-backend.herokuapp.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "pokelatte-backend.herokuapp.com"]
 
 
 # Application definition
@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pokemon',
-    'corsheaders',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
