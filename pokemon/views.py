@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializer import PokemonPostSerializer
-from .models import PokemonPost
+from .serializer import PokemonSerializer
+from .models import Pokemon
 
 
 class PokemonAPIView(viewsets.ModelViewSet):
-    serializer_class = PokemonPostSerializer
-    queryset = PokemonPost.objects.all()
+    serializer_class = PokemonSerializer
+    queryset = Pokemon.objects.all()

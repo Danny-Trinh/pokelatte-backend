@@ -9,7 +9,6 @@ verify_ssl = true
 django = "*"
 pillow = "*"
 django-heroku = "*"
-django-storages = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 requests = "*"

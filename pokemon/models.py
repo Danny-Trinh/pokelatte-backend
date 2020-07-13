@@ -91,7 +91,7 @@ class Pokemon(models.Model):
         self.refresh_stats()
 
     def refresh_base(self):
-        p_stats = poke.pokemon(self.number).stats
+        p_stats = poke.pokemon(self.species).stats
         self.b_hp = p_stats[0].base_stat
         self.b_defense = p_stats[1].base_stat
         self.b_attack = p_stats[2].base_stat
