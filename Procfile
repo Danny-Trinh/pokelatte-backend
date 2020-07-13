@@ -1,0 +1,1 @@
+web: gunicorn pokelatte_backend.wsgi
