@@ -111,7 +111,7 @@ class Pokemon(models.Model):
     def add_meta(self):
         temp = poke.pokemon(self.species)
         self.sprite = temp.sprites.front_default
-        self.number = temp.order
+        self.number = str(temp.order)
         pic_string = f"https://assets.pokemon.com/assets/cms2/img/pokedex/full/{self.number.zfill(3)}.png"
         self.main_pic = pic_string
         temp2 = poke.pokemon_species(self.species)
