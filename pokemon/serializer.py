@@ -25,6 +25,7 @@ class PokemonSerializer(serializers.ModelSerializer):
                   'evolve_chain',
                   'gender',
 
+                  'main_pic',
                   'sprite',
                   'level',
                   'iv',
