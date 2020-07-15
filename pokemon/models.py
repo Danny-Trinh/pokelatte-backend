@@ -107,9 +107,11 @@ class Pokemon(models.Model):
         self.s_defense = self.calc_stat(self.b_s_defense)
         self.speed = self.calc_stat(self.b_speed)
 
+    # occurs once, adds the correct picture, sprite, and pokemon number
     def add_meta(self):
         temp = poke.pokemon(self.species)
         self.sprite = temp.sprites.front_default
+        self.number = temp.order
         pic_string = f"https://assets.pokemon.com/assets/cms2/img/pokedex/full/{self.number.zfill(3)}.png"
         self.main_pic = pic_string
         temp2 = poke.pokemon_species(self.species)
