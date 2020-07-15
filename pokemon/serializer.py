@@ -15,7 +15,8 @@ class PokemonPostSerializer(serializers.ModelSerializer):
 class PokemonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pokemon
-        fields = ('trainer',
+        fields = ('id',
+                  'trainer',
                   'name',
 
                   'species',
