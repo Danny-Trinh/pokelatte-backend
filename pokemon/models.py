@@ -36,15 +36,15 @@ class Pokemon(models.Model):
     # meta, doesnt change
     evolve_chain = models.IntegerField(default=0, editable=False)
     gender = models.CharField(
-        choices=GENDER, max_length=1, default='M', editable=False)
+        choices=GENDER, max_length=1, default='M')
 
     # meta, will change
     sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
                              editable=False)
     main_pic = models.URLField(default="https://assets.pokemon.com/assets/cms2/img/pokedex/full/3.png",
                                editable=False)
-    level = models.IntegerField(default=1, editable=False)
-    iv = models.IntegerField(default=0, editable=False)
+    level = models.IntegerField(default=1)
+    iv = models.IntegerField(default=0)
 
     # base stats
     b_hp = models.IntegerField('base hp', default=0, editable=False)
