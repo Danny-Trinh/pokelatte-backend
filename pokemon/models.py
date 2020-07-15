@@ -119,7 +119,7 @@ class Pokemon(models.Model):
             self.name = self.species
         temp2 = poke.pokemon_species(self.species)
         self.evolve_chain = temp2.evolution_chain.id
-        self.description = temp2.flavor_text_entries[6]
+        self.description = temp2.flavor_text_entries[6].flavor_text
         print(f"pic: {self.sprite}")
         print(f"evolve num: {self.evolve_chain}")
         print(f"evolve num: {self.main_pic}")
