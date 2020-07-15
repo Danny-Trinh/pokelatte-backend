@@ -39,6 +39,7 @@ class Pokemon(models.Model):
         choices=GENDER, max_length=1, default='M')
 
     # meta, will change
+    description = models.TextField(editable=False, default="default")
     sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
                              editable=False)
     main_pic = models.URLField(default="https://assets.pokemon.com/assets/cms2/img/pokedex/full/3.png",
@@ -107,17 +108,18 @@ class Pokemon(models.Model):
         self.s_defense = self.calc_stat(self.b_s_defense)
         self.speed = self.calc_stat(self.b_speed)
 
-    # occurs once, adds the correct picture, sprite, and pokemon number (makes name = species if no name is specified)
+    # occurs once, adds the correct picture, sprite, description, and pokemon number (makes name = species if no name is specified)
     def add_meta(self):
         temp = poke.pokemon(self.species)
         self.sprite = temp.sprites.front_default
-        self.number = str(temp.order)
+        self.number = str(temp.id)
         pic_string = f"https://assets.pokemon.com/assets/cms2/img/pokedex/full/{self.number.zfill(3)}.png"
         self.main_pic = pic_string
         if(self.name == "default name"):
             self.name = self.species
         temp2 = poke.pokemon_species(self.species)
         self.evolve_chain = temp2.evolution_chain.id
+        self.description = temp2.flavor_text_entries[71]
         print(f"pic: {self.sprite}")
         print(f"evolve num: {self.evolve_chain}")
         print(f"evolve num: {self.main_pic}")
