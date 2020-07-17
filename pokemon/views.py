@@ -7,3 +7,4 @@ from .models import Pokemon
 class PokemonAPIView(viewsets.ModelViewSet):
     serializer_class = PokemonSerializer
     queryset = Pokemon.objects.all()
+
