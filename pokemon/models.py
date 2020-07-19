@@ -125,7 +125,7 @@ class Pokemon(models.Model):
         print(f"evolve num: {self.main_pic}")
 
     def __str__(self):
-        if(self.name=self.species):
+        if(self.name == self.species):
             return self.name
         return self.name + " (" + self.species + ")"
 
