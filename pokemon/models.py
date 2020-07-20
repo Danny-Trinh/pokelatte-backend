@@ -39,7 +39,7 @@ class Pokemon(models.Model):
         choices=GENDER, max_length=1, default='M')
 
     # meta, will change
-    description = models.TextField(editable=False, default="default")
+    description = models.TextField(default="default")
     sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
                              editable=False)
     main_pic = models.URLField(default="https://assets.pokemon.com/assets/cms2/img/pokedex/full/3.png",
