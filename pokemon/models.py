@@ -119,7 +119,8 @@ class Pokemon(models.Model):
             self.name = self.species
         temp2 = poke.pokemon_species(self.species)
         self.evolve_chain = temp2.evolution_chain.id
-        self.description = temp2.flavor_text_entries[6].flavor_text
+        self.description = self.fixString(
+            temp2.flavor_text_entries[6].flavor_text)
         print(f"pic: {self.sprite}")
         print(f"evolve num: {self.evolve_chain}")
         print(f"evolve num: {self.main_pic}")
@@ -128,6 +129,18 @@ class Pokemon(models.Model):
         if(self.name == self.species):
             return self.name
         return self.name + " (" + self.species + ")"
+
+    def fixString(self, str):
+        result = str.replace("\f", " ")
+        result = result.lower()
+        result = result.capitalize()
+        limit = len(result) - 3
+        for x in range(0, limit):
+            replaceIndex = x + 2
+            if(result[x] == '.'):
+                result = result[:replaceIndex] + \
+                    result[replaceIndex].upper() + result[replaceIndex + 1:]
+        return result
 
     def save(self, *args, **kwargs):
         if self._state.adding:
