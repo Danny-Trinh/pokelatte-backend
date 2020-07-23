@@ -1,0 +1,29 @@
+[33mb881489[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m fixed weird description bugs
+[33mc36a3eb[m model:added description
+[33m22394c0[m optimized models
+[33m0f169a5[m optimized models
+[33m9b74c46[m made easier serializr method
+[33m118df5d[m added descriptions
+[33mdfe014b[m added descriptions
+[33me9477b6[m added descriptions
+[33mab3a9e6[m made name default to species name if not specified
+[33m2822026[m made parts of the pokemon model editable
+[33m25c5726[m minute changes
+[33m9f758ee[m made pokemon model's number based off its species
+[33m76ca84d[m added pokemon model to admin view
+[33m027a741[m added main_pic to pokemon model
+[33m779bce9[m added ids to the pokemon
+[33mf0f1eb3[m added cors whitelist
+[33m2a0b201[m added apis
+[33m2062161[m added pokebase
+[33m4d89ae6[m added pokebase
+[33mf8fae24[m fixed weird api formatting
+[33mfd81f73[m fixed weird api formatting
+[33m2d73c5d[m fixed weird api formatting
+[33m6feacbc[m added Procfile
+[33m80bd651[m added Procfile
+[33m1c79bab[m added Procfile
+[33m140065c[m heroku addons
+[33mc4f9308[m heroku addons
+[33m30266c2[m heroku addons
+[33m9b53804[m first commit

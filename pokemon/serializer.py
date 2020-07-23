@@ -13,6 +13,7 @@ class PokemonPostSerializer(serializers.ModelSerializer):
 
 
 class PokemonSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Pokemon
         fields = '__all__'
