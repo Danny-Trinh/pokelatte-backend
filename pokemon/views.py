@@ -6,12 +6,13 @@ from .models import Pokemon
 
 class PokemonAPIView(viewsets.ModelViewSet):
     serializer_class = PokemonSerializer
-    permision_classes = [
-        permissions.IsAuthenticated
-    ]
+    queryset = Pokemon.objects.all()
+    # permision_classes = [
+    #     permissions.IsAuthenticated
+    # ]
 
-    def get_queryset(self):
-        return self.request.user.pokemons.all()
+    # def get_queryset(self):
+    #     return self.request.user.pokemons.all()
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+    # def perform_create(self, serializer):
+    #     serializer.save(owner=self.request.user)
