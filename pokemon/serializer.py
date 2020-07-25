@@ -3,18 +3,26 @@ from .models import PokemonPost, Pokemon
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import token_obtain_pair
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserSerializer(serializers.ModelSerializer):
     """
     User Creation Serializer
     """
-    token = serializers.SerializerMethodField()
+    tokens = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ('username', 'password')
+        fields = ('tokens', 'username', 'password')
+
+    def get_tokens(self, user):
+        refresh = RefreshToken.for_user(user)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -23,6 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
         if password is not None:
             instance.set_password(password)
         instance.save()
+        print(instance.id)
         return instance
 
 

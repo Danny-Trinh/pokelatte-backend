@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from rest_framework_simplejwt.views import TokenObtainPairView
-import jwt
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, status, permissions
