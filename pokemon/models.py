@@ -94,16 +94,16 @@ class Pokemon(models.Model):
     def refresh_base(self):
         p_stats = poke.pokemon(self.species).stats
         self.b_hp = p_stats[0].base_stat
-        self.b_defense = p_stats[1].base_stat
-        self.b_attack = p_stats[2].base_stat
+        self.b_attack = p_stats[1].base_stat
+        self.b_defense = p_stats[2].base_stat
         self.b_s_attack = p_stats[3].base_stat
         self.b_s_defense = p_stats[4].base_stat
         self.b_speed = p_stats[5].base_stat
 
     def refresh_stats(self):
         self.hp = self.calc_hp()
-        self.defense = self.calc_stat(self.b_defense)
         self.attack = self.calc_stat(self.b_attack)
+        self.defense = self.calc_stat(self.b_defense)
         self.s_attack = self.calc_stat(self.b_s_attack)
         self.s_defense = self.calc_stat(self.b_s_defense)
         self.speed = self.calc_stat(self.b_speed)
