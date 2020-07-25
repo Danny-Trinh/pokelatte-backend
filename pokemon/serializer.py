@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import PokemonPost, Pokemon
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.settings import api_settings
+from rest_framework_simplejwt.views import token_obtain_pair
 from django.contrib.auth.models import User
 
 
@@ -17,11 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('token', 'username', 'password')
 
     def get_token(self, obj):
-        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-
-        payload = jwt_payload_handler(obj)
-        token = jwt_encode_handler(payload)
+        token = token_obtain_pair(self, obj)
         return token
 
     def create(self, validated_data):
