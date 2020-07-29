@@ -6,6 +6,13 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
+class CurrentUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'username')
+
+
 class UserSerializer(serializers.ModelSerializer):
     """
     User Creation Serializer

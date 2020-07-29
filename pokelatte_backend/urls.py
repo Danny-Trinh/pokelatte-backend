@@ -9,6 +9,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = routers.DefaultRouter()
 router.register(r'pokemon', views.PokemonAPIView, 'pokemon')
+router.register(r'user', views.CurrentUserView, 'user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

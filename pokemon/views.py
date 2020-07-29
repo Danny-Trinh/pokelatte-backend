@@ -3,10 +3,17 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, status, permissions
-from .serializer import PokemonSerializer
+from .serializer import PokemonSerializer, UserSerializer, CurrentUserSerializer
 from .models import Pokemon
+from django.contrib.auth.models import User
 
-from .serializer import UserSerializer
+
+class CurrentUserView(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = CurrentUserSerializer
+
+    def get_queryset(self):
+        return [self.request.user]
 
 
 class UserCreateView(APIView):
