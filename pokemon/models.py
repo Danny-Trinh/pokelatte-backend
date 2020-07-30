@@ -2,7 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
-import pokebase as poke
+import requests
+import json
 
 # Create your models here.
 
@@ -67,7 +68,6 @@ class Pokemon(models.Model):
     speed = models.IntegerField(default=0, editable=False)
 
     # exp
-    prev_exp = models.IntegerField(default=0, editable=False)
     exp = models.IntegerField(default=0, editable=False)
     next_exp = models.IntegerField(default=0, editable=False)
 
@@ -92,7 +92,9 @@ class Pokemon(models.Model):
         self.refresh_stats()
 
     def refresh_base(self):
-        p_stats = poke.pokemon(self.species).stats
+        response = requests.get(
+            f"https://pokeapi.co/api/v2/pokemon/{self.species}")
+        p_stats = json.loads(response.content).stats
         self.b_hp = p_stats[0].base_stat
         self.b_attack = p_stats[1].base_stat
         self.b_defense = p_stats[2].base_stat
@@ -110,14 +112,18 @@ class Pokemon(models.Model):
 
     # occurs once, adds the correct picture, sprite, description, and pokemon number (makes name = species if no name is specified)
     def add_meta(self):
-        temp = poke.pokemon(self.species)
+        response = requests.get(
+            f"https://pokeapi.co/api/v2/pokemon/{self.species}")
+        temp = json.loads(response.content)
         self.sprite = temp.sprites.front_default
         self.number = str(temp.id)
         pic_string = f"https://assets.pokemon.com/assets/cms2/img/pokedex/full/{self.number.zfill(3)}.png"
         self.main_pic = pic_string
         if(self.name == "default name"):
             self.name = self.species
-        temp2 = poke.pokemon_species(self.species)
+        response2 = requests.get(
+            f"https://pokeapi.co/api/v2/pokemon-species/{self.species}")
+        temp2 = json.loads(response2.content)
         self.evolve_chain = temp2.evolution_chain.id
         self.description = self.fixString(
             temp2.flavor_text_entries[6].flavor_text)
