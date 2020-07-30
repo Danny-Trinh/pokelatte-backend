@@ -95,12 +95,12 @@ class Pokemon(models.Model):
         response = requests.get(
             f"https://pokeapi.co/api/v2/pokemon/{self.species}")
         p_stats = json.loads(response.content).stats
-        self.b_hp = p_stats[0].base_stat
-        self.b_attack = p_stats[1].base_stat
-        self.b_defense = p_stats[2].base_stat
-        self.b_s_attack = p_stats[3].base_stat
-        self.b_s_defense = p_stats[4].base_stat
-        self.b_speed = p_stats[5].base_stat
+        self.b_hp = p_stats[0]['base_stat']
+        self.b_attack = p_stats[1]['base_stat']
+        self.b_defense = p_stats[2]['base_stat']
+        self.b_s_attack = p_stats[3]['base_stat']
+        self.b_s_defense = p_stats[4]['base_stat']
+        self.b_speed = p_stats[5]['base_stat']
 
     def refresh_stats(self):
         self.hp = self.calc_hp()
@@ -115,8 +115,8 @@ class Pokemon(models.Model):
         response = requests.get(
             f"https://pokeapi.co/api/v2/pokemon/{self.species}")
         temp = json.loads(response.content)
-        self.sprite = temp.sprites.front_default
-        self.number = str(temp.id)
+        self.sprite = temp['sprites']['front_default']
+        self.number = str(temp['id'])
         pic_string = f"https://assets.pokemon.com/assets/cms2/img/pokedex/full/{self.number.zfill(3)}.png"
         self.main_pic = pic_string
         if(self.name == "default name"):
@@ -124,9 +124,9 @@ class Pokemon(models.Model):
         response2 = requests.get(
             f"https://pokeapi.co/api/v2/pokemon-species/{self.species}")
         temp2 = json.loads(response2.content)
-        self.evolve_chain = temp2.evolution_chain.id
+        self.evolve_chain = temp2['evolution_chain']['id']
         self.description = self.fixString(
-            temp2.flavor_text_entries[6].flavor_text)
+            temp2['flavor_text_entries'][6]['flavor_text'])
         print(f"pic: {self.sprite}")
         print(f"evolve num: {self.evolve_chain}")
         print(f"evolve num: {self.main_pic}")
@@ -144,8 +144,8 @@ class Pokemon(models.Model):
         for x in range(0, limit):
             replaceIndex = x + 2
             if(result[x] == '.'):
-                result = result[:replaceIndex] + \
-                    result[replaceIndex].upper() + result[replaceIndex + 1:]
+                result = result[:replaceIndex] +
+                result[replaceIndex].upper() + result[replaceIndex + 1:]
         return result
 
     def save(self, *args, **kwargs):
