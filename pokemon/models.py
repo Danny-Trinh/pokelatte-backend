@@ -144,8 +144,8 @@ class Pokemon(models.Model):
         for x in range(0, limit):
             replaceIndex = x + 2
             if(result[x] == '.'):
-                result = result[:replaceIndex] +
-                result[replaceIndex].upper() + result[replaceIndex + 1:]
+                result = result[:replaceIndex] + \
+                    result[replaceIndex].upper() + result[replaceIndex + 1:]
         return result
 
     def save(self, *args, **kwargs):
