@@ -94,7 +94,7 @@ class Pokemon(models.Model):
     def refresh_base(self):
         response = requests.get(
             f"https://pokeapi.co/api/v2/pokemon/{self.species}")
-        p_stats = json.loads(response.content).stats
+        p_stats = json.loads(response.content)['stats']
         self.b_hp = p_stats[0]['base_stat']
         self.b_attack = p_stats[1]['base_stat']
         self.b_defense = p_stats[2]['base_stat']
