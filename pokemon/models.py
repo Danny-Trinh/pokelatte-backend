@@ -37,7 +37,7 @@ class Pokemon(models.Model):
 
     # meta, doesnt change
     evolutions = jsonfield.JSONField()
-    types = jsonfield.JSONField()
+    # types = jsonfield.JSONField()
     gender = models.CharField(
         choices=GENDER, max_length=1, default='M')
 
@@ -124,10 +124,10 @@ class Pokemon(models.Model):
         self.main_pic = pic_string
         if self.name == "default name":
             self.name = self.species
-        types = []
-        for x in temp['types']:
-            types.append(x['type']['name'])
-        self.types = types
+        # types = []
+        # for x in temp['types']:
+        #     types.append(x['type']['name'])
+        # self.types = types
 
         response2 = requests.get(
             f"https://pokeapi.co/api/v2/pokemon-species/{self.species}")
