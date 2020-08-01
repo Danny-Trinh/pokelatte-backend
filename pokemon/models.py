@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.contrib.postgres.fields import ArrayField
 import requests
 import json
 
@@ -35,11 +36,11 @@ class Pokemon(models.Model):
     number = models.CharField(max_length=30, default=3)
 
     # meta, doesnt change
-    evolve_chain = models.IntegerField(default=0, editable=False)
     gender = models.CharField(
         choices=GENDER, max_length=1, default='M')
 
     # meta, will change
+    evolutions = ArrayField(ArrayField(models.CharField()))
     description = models.TextField(default="default")
     sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
                              editable=False)
@@ -110,7 +111,8 @@ class Pokemon(models.Model):
         self.s_defense = self.calc_stat(self.b_s_defense)
         self.speed = self.calc_stat(self.b_speed)
 
-    # occurs once, adds the correct picture, sprite, description, and pokemon number (makes name = species if no name is specified)
+    # occurs once, adds the correct picture, sprite, description, and pokemon number
+    # (makes name = species if no name is specified)
     def add_meta(self):
         response = requests.get(
             f"https://pokeapi.co/api/v2/pokemon/{self.species}")
@@ -119,34 +121,50 @@ class Pokemon(models.Model):
         self.number = str(temp['id'])
         pic_string = f"https://assets.pokemon.com/assets/cms2/img/pokedex/full/{self.number.zfill(3)}.png"
         self.main_pic = pic_string
-        if(self.name == "default name"):
+        if self.name == "default name":
             self.name = self.species
         response2 = requests.get(
             f"https://pokeapi.co/api/v2/pokemon-species/{self.species}")
         temp2 = json.loads(response2.content)
-        self.evolve_chain = temp2['evolution_chain']['id']
-        self.description = self.fixString(
+        response3 = requests.get(temp2['evolution_chain']['url'])
+        temp3 = json.loads(response3.content)
+        self.set_evolutions(temp3)
+        self.description = self.fix_string(
             temp2['flavor_text_entries'][6]['flavor_text'])
-        print(f"pic: {self.sprite}")
-        print(f"evolve num: {self.evolve_chain}")
-        print(f"evolve num: {self.main_pic}")
 
     def __str__(self):
-        if(self.name == self.species):
+        if self.name == self.species:
             return self.name
         return self.name + " (" + self.species + ")"
 
-    def fixString(self, str):
-        result = str.replace("\f", " ")
+    @staticmethod
+    def fix_string(string):
+        result = string.replace("\f", " ")
         result = result.lower()
         result = result.capitalize()
         limit = len(result) - 3
         for x in range(0, limit):
-            replaceIndex = x + 2
-            if(result[x] == '.'):
-                result = result[:replaceIndex] + \
-                    result[replaceIndex].upper() + result[replaceIndex + 1:]
+            replace_index = x + 2
+            if result[x] == '.':
+                result = result[:replace_index] + \
+                    result[replace_index].upper() + result[replace_index + 1:]
         return result
+
+    def set_evolutions(self, evolution_chain):
+        result = ['']
+        chain = evolution_chain['chain']
+        if len(chain['evolves_to']) != 0:
+            # finds the second evolutions
+            if chain['species']['name'] == self.species:
+                for pokemon in chain['evolves_to']:
+                    result.append(pokemon['species']['name'])
+            # finds the third evolutions
+            else:
+                for pokemon in chain['evolves_to']:
+                    if pokemon['species']['name'] == self.species:
+                        for pokemon_2 in pokemon['evolves_to']:
+                            result.append(pokemon_2['species']['name'])
+        self.evolutions = result
 
     def save(self, *args, **kwargs):
         if self._state.adding:
