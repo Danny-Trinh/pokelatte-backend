@@ -40,7 +40,7 @@ class Pokemon(models.Model):
         choices=GENDER, max_length=1, default='M')
 
     # meta, will change
-    evolutions = ArrayField(ArrayField(models.CharField()))
+    evolutions = ArrayField(ArrayField(models.CharField(max_length = 25)))
     description = models.TextField(default="default")
     sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
                              editable=False)
