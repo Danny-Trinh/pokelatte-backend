@@ -2,9 +2,9 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.contrib.postgres.fields import ArrayField
 import requests
 import json
+import jsonfield
 
 # Create your models here.
 
@@ -36,11 +36,12 @@ class Pokemon(models.Model):
     number = models.CharField(max_length=30, default=3)
 
     # meta, doesnt change
+    evolutions = jsonfield.JSONField()
+    types = jsonfield.JSONField()
     gender = models.CharField(
         choices=GENDER, max_length=1, default='M')
 
     # meta, will change
-    evolutions = ArrayField(models.CharField(max_length=50, blank=True), default=list)
     description = models.TextField(default="default")
     sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
                              editable=False)
@@ -123,12 +124,17 @@ class Pokemon(models.Model):
         self.main_pic = pic_string
         if self.name == "default name":
             self.name = self.species
+        types = []
+        for x in temp['types']:
+            types.append(x['type']['name'])
+        self.types = types
+
         response2 = requests.get(
             f"https://pokeapi.co/api/v2/pokemon-species/{self.species}")
         temp2 = json.loads(response2.content)
         response3 = requests.get(temp2['evolution_chain']['url'])
         temp3 = json.loads(response3.content)
-        self.set_evolutions(temp3)
+        self.initialize_evolutions(temp3)
         self.description = self.fix_string(
             temp2['flavor_text_entries'][6]['flavor_text'])
 
@@ -150,20 +156,22 @@ class Pokemon(models.Model):
                     result[replace_index].upper() + result[replace_index + 1:]
         return result
 
-    def set_evolutions(self, evolution_chain):
-        result = ['']
+    def initialize_evolutions(self, evolution_chain):
+        result = {}
         chain = evolution_chain['chain']
         if len(chain['evolves_to']) != 0:
-            # finds the second evolutions
-            if chain['species']['name'] == self.species:
-                for pokemon in chain['evolves_to']:
-                    result.append(pokemon['species']['name'])
-            # finds the third evolutions
-            else:
-                for pokemon in chain['evolves_to']:
-                    if pokemon['species']['name'] == self.species:
-                        for pokemon_2 in pokemon['evolves_to']:
-                            result.append(pokemon_2['species']['name'])
+            # finds the initial evolutions
+            pokemon_name = chain['species']['name']
+            result[pokemon_name] = []
+            for pokemon in chain['evolves_to']:
+                result[pokemon_name].append(pokemon['species']['name'])
+            # finds the third evolutions\
+            for pokemon in chain['evolves_to']:
+                pokemon_name_2 = pokemon['species']['name']
+                if len(pokemon['evolves_to']) != 0:
+                    result[pokemon_name_2] = []
+                    for pokemon_2 in pokemon['evolves_to']:
+                        result[pokemon_name_2].append(pokemon_2['species']['name'])
         self.evolutions = result
 
     def save(self, *args, **kwargs):

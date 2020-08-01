@@ -15,6 +15,7 @@ requests = "*"
 gunicorn = "*"
 pokebase = "*"
 djangorestframework-simplejwt = "*"
+django-jsonfield = "*"
 
 [requires]
 python_version = "3.8"
