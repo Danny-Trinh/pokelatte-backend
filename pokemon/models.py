@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 import requests
 import json
-import jsonfield
 
 # Create your models here.
 
@@ -36,7 +35,7 @@ class Pokemon(models.Model):
     number = models.CharField(max_length=30, default=3)
 
     # meta, doesnt change
-    evolutions = jsonfield.JSONField()
+    evolutions = models.TextField(default="{}")
     # types = jsonfield.JSONField()
     gender = models.CharField(
         choices=GENDER, max_length=1, default='M')
