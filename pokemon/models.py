@@ -172,7 +172,7 @@ class Pokemon(models.Model):
                     result[pokemon_name_2] = []
                     for pokemon_2 in pokemon['evolves_to']:
                         result[pokemon_name_2].append(pokemon_2['species']['name'])
-        self.evolutions = result
+        self.evolutions = json.dumps(result)
 
     def save(self, *args, **kwargs):
         if self._state.adding:
