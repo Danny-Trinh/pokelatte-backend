@@ -44,6 +44,8 @@ class Pokemon(models.Model):
     description = models.TextField(default="default")
     sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
                              editable=False)
+    back_sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
+                             editable=False)
     main_pic = models.URLField(default="https://assets.pokemon.com/assets/cms2/img/pokedex/full/3.png",
                                editable=False)
     level = models.IntegerField(default=1)
@@ -69,8 +71,7 @@ class Pokemon(models.Model):
     speed = models.IntegerField(default=0, editable=False)
 
     # exp
-    exp = models.IntegerField(default=0, editable=False)
-    next_exp = models.IntegerField(default=0, editable=False)
+    exp = models.IntegerField(default=0)
 
     # def increase_exp(self, exp_inc):
     #     exp += exp_inc
@@ -118,6 +119,7 @@ class Pokemon(models.Model):
             f"https://pokeapi.co/api/v2/pokemon/{self.species}")
         temp = json.loads(response.content)
         self.sprite = temp['sprites']['front_default']
+        self.back_sprite = temp['sprites']['back_default']
         self.number = str(temp['id'])
         pic_string = f"https://assets.pokemon.com/assets/cms2/img/pokedex/full/{self.number.zfill(3)}.png"
         self.main_pic = pic_string
