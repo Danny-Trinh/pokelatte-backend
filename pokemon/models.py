@@ -55,7 +55,7 @@ class Pokemon(models.Model):
     speed = models.IntegerField(default=0, editable=False)
 
     # exp
-    exp = models.IntegerField(default=0)
+    exp = models.IntegerField(default=1)
 
     # def increase_exp(self, exp_inc):
     #     exp += exp_inc
@@ -87,7 +87,7 @@ class Pokemon(models.Model):
         self.s_defense = self.calc_stat(self.b_s_defense)
         self.speed = self.calc_stat(self.b_speed)
 
-    # adds assets based on species (sprites, main pic, number, types, initial exp, evolutions, description)
+    # adds assets based on species (sprites, main pic, number, types, level, evolutions, description)
     # (makes name = species if no name is specified)
     def initialize_meta(self):
         response = requests.get(
@@ -104,7 +104,7 @@ class Pokemon(models.Model):
         for x in temp['types']:
             types.append(x['type']['name'])
         self.types = json.dumps(types)
-        self.exp = self.level * self.level * self.level
+        self.level = int(self.exp**(1./3.))
 
         response2 = requests.get(
             f"https://pokeapi.co/api/v2/pokemon-species/{self.species}")
