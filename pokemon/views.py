@@ -3,7 +3,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, status, permissions
-from .serializer import PokemonSerializer, UserSerializer, CurrentUserSerializer
+from .serializer import PokemonSerializer, UserSerializer, \
+    CurrentUserSerializer, PokemonEvolveSerializer, PokemonLevelSerializer
 from .models import Pokemon
 from django.contrib.auth.models import User
 
@@ -30,11 +31,47 @@ class UserCreateView(APIView):
 
 
 class PokemonAPIView(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
     serializer_class = PokemonSerializer
     # queryset = Pokemon.objects.all()
 
     def get_queryset(self):
         return Pokemon.objects.filter(trainer=self.request.user.id)
+
+
+class PokemonAPIEvolve(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = PokemonEvolveSerializer
+
+    def update(self, request, pk):
+        serializer = PokemonEvolveSerializer(data=request.data)
+        if serializer.is_valid():
+            pokemon = Pokemon.objects.get(pk=pk)
+            if pokemon:
+                pokemon.evolve(serializer.data['species'])
+                return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_queryset(self):
+        return Pokemon.objects.all()
+
+
+class PokemonAPILevel(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = PokemonLevelSerializer
+
+    def update(self, request, pk):
+        serializer = PokemonLevelSerializer(data=request.data)
+        if serializer.is_valid():
+            pokemon = Pokemon.objects.get(pk=pk)
+            if pokemon:
+                # print(serializer.data)
+                pokemon.exp_gain(serializer.data['level'], serializer.data['exp'])
+                return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_queryset(self):
+        return Pokemon.objects.all()
 
 # not needed anymore, but shows how to decode a jwt token
 # def dispatch(self, request, *args, **kwargs):

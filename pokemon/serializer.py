@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import PokemonPost, Pokemon
+from .models import Pokemon
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import token_obtain_pair
 from django.contrib.auth.models import User
@@ -41,14 +41,18 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
-class PokemonPostSerializer(serializers.ModelSerializer):
+class PokemonEvolveSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = PokemonPost
-        fields = ('id',
-                  'title',
-                  'content',
-                  'author'
-                  )
+        model = Pokemon
+        fields = ('species', 'description')
+
+
+class PokemonLevelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Pokemon
+        fields = ('exp', 'level', 'attack', 'defense')
 
 
 class PokemonSerializer(serializers.ModelSerializer):

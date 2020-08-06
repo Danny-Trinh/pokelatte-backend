@@ -6,22 +6,6 @@ import requests
 import json
 
 # Create your models here.
-
-
-class PokemonPost(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-    date_posted = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return reverse('post-detail', kwargs={'pk': self.pk})
-
-
-# Create your models here.
 class Pokemon(models.Model):
     GENDER = (
         ('M', 'Male'),
@@ -84,15 +68,6 @@ class Pokemon(models.Model):
     def calc_stat(self, num):
         return ((2 * num + self.iv) * self.level) / 100 + 5
 
-    def evolve(self):
-        # check next evolution, update number and species
-        self.number = 1
-        self.species = 'charizard'
-        # update base
-        self.refresh_base()
-        # update stats
-        self.refresh_stats()
-
     def refresh_base(self):
         response = requests.get(
             f"https://pokeapi.co/api/v2/pokemon/{self.species}")
@@ -112,9 +87,9 @@ class Pokemon(models.Model):
         self.s_defense = self.calc_stat(self.b_s_defense)
         self.speed = self.calc_stat(self.b_speed)
 
-    # occurs once, adds the correct picture, sprite, description, and pokemon number
+    # adds assets based on species (sprites, main pic, number, types, initial exp, evolutions, description)
     # (makes name = species if no name is specified)
-    def add_meta(self):
+    def initialize_meta(self):
         response = requests.get(
             f"https://pokeapi.co/api/v2/pokemon/{self.species}")
         temp = json.loads(response.content)
@@ -176,9 +151,28 @@ class Pokemon(models.Model):
                         result[pokemon_name_2].append(pokemon_2['species']['name'])
         self.evolutions = json.dumps(result)
 
+    def evolve_save(self, *args, **kwargs):
+            self.refresh_base()  # gets the base stats
+            self.refresh_stats()  # refreshes the actual stats based on level
+            self.initialize_meta()  # adds meta data for pokemon
+            super().save(*args, **kwargs)
+
     def save(self, *args, **kwargs):
         if self._state.adding:
-            self.refresh_base()
-            self.refresh_stats()
-            self.add_meta()
+            self.refresh_base() #gets the base stats
+            self.refresh_stats() # refreshes the actual stats based on level
+            self.initialize_meta() # adds meta data for pokemon
         super().save(*args, **kwargs)
+
+    def evolve(self, species):
+        self.species = species
+        self.initialize_meta()
+        self.refresh_base()
+        self.refresh_stats()
+        self.save()
+
+    def exp_gain(self, level, exp):
+        self.level = level
+        self.exp = exp
+        self.refresh_stats()
+        self.save()
