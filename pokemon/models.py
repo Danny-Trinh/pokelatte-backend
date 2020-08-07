@@ -163,8 +163,9 @@ class Pokemon(models.Model):
             self.initialize_meta() # adds meta data for pokemon
         super().save(*args, **kwargs)
 
-    def evolve(self, species):
+    def evolve(self, species, name):
         self.species = species
+        self.name = name
         self.initialize_meta()
         self.refresh_base()
         self.refresh_stats()

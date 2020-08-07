@@ -46,7 +46,7 @@ class PokemonAPIEvolve(viewsets.ModelViewSet):
         if serializer.is_valid():
             pokemon = Pokemon.objects.get(pk=pk)
             if pokemon:
-                pokemon.evolve(serializer.data['species'])
+                pokemon.evolve(serializer.data['species'], serializer.data['name'])
                 return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
