@@ -26,12 +26,9 @@ class Pokemon(models.Model):
 
     # meta, will change
     description = models.TextField(default="default")
-    sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
-                             editable=False)
-    back_sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
-                             editable=False)
-    main_pic = models.URLField(default="https://assets.pokemon.com/assets/cms2/img/pokedex/full/3.png",
-                               editable=False)
+    sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png")
+    back_sprite = models.URLField(default="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png")
+    main_pic = models.URLField(default="https://assets.pokemon.com/assets/cms2/img/pokedex/full/3.png")
     level = models.IntegerField(default=1)
     iv = models.IntegerField(default=0)
 
