@@ -96,7 +96,7 @@ class Pokemon(models.Model):
         pic_string = f"https://assets.pokemon.com/assets/cms2/img/pokedex/full/{self.number.zfill(3)}.png"
         self.main_pic = pic_string
         if self.name == "default name":
-            self.name = self.species
+            self.name = temp['species']['name']
         types = []
         for x in temp['types']:
             types.append(x['type']['name'])
