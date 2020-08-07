@@ -104,7 +104,6 @@ class Pokemon(models.Model):
         for x in temp['types']:
             types.append(x['type']['name'])
         self.types = json.dumps(types)
-        self.level = int(self.exp**(1./3.))
 
         response2 = requests.get(
             f"https://pokeapi.co/api/v2/pokemon-species/{self.species}")
