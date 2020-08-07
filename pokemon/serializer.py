@@ -45,7 +45,7 @@ class PokemonEvolveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pokemon
-        fields = ('species', 'description')
+        fields = ('species', 'name')
 
 
 class PokemonLevelSerializer(serializers.ModelSerializer):
