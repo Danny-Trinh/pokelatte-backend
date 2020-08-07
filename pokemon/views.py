@@ -18,6 +18,7 @@ class CurrentUserView(viewsets.ModelViewSet):
 
 
 class UserCreateView(APIView):
+    permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
@@ -54,7 +55,6 @@ class PokemonAPIEvolve(viewsets.ModelViewSet):
 
 
 class PokemonAPILevel(viewsets.ModelViewSet):
-    permission_classes = (permissions.AllowAny,)
     serializer_class = PokemonLevelSerializer
 
     def update(self, request, pk):
