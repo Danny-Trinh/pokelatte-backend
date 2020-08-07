@@ -103,7 +103,7 @@ class Pokemon(models.Model):
         self.types = json.dumps(types)
 
         response2 = requests.get(
-            f"https://pokeapi.co/api/v2/pokemon-species/{self.species}")
+            f"https://pokeapi.co/api/v2/pokemon-species/{temp['species']['name']}")
         temp2 = json.loads(response2.content)
         response3 = requests.get(temp2['evolution_chain']['url'])
         temp3 = json.loads(response3.content)
