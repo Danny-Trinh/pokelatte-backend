@@ -29,11 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "pokelatte-backend.herokuapp.com"]
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-    "https://pokelatte.herokuapp.com",
-    "pokelatte.herokuapp.com"
-]
+CORS_ORIGIN_ALLOW_ALL = True;
 
 
 # Application definition
