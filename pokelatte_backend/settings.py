@@ -29,9 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "pokelatte-backend.herokuapp.com", "pokelatte.live","www.pokelatte.live" "master.d2a077himf5mxt.amplifyapp.com", "https://www.pokelatte.live/"]
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-]
+CORS_ORIGIN_ALLOW_ALL = True;
 
 
 # Application definition
@@ -49,8 +47,8 @@ INSTALLED_APPS = [
 ]
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
     'AUTH_HEADER_TYPES': ('JWT',),
 }
 
