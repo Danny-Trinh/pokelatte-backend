@@ -27,7 +27,7 @@ SECRET_KEY = 'ej2lq&_b+-^5bziz!*-+@-+z74jd!169csitpmzihnyqe(i-07'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "pokelatte-backend.herokuapp.com", "pokelatte.live", "master.d2a077himf5mxt.amplifyapp.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "pokelatte-backend.herokuapp.com", "pokelatte.live","www.pokelatte.live" "master.d2a077himf5mxt.amplifyapp.com"]
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
